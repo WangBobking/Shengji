@@ -1,8 +1,5 @@
 package com.dfsebook.bean;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class Card {
 
@@ -52,23 +49,6 @@ public class Card {
 			rank = 11;
 		if (suit == trump_suit)
 			rank += 1;			
-	}
-	
-	public static void sort(List<Card> cards) {
-		Collections.sort(cards, new Comparator<Card>() {
-
-			@Override
-			public int compare(Card card1, Card card2) {
-				int result = card1.getRank() - card2.getRank();
-				if (result != 0)
-					return result;
-				result = card1.getSuit() - card2.getSuit();
-				if (result != 0)
-					return result;
-				return card1.getFace() - card2.getFace();
-			}
-			
-		});
 	}
 
 	@Override

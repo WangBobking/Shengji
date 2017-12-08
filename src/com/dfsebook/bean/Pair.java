@@ -3,6 +3,8 @@ package com.dfsebook.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dfsebook.util.CardUtil;
+
 public class Pair extends CardType {
 
 	/**
@@ -47,7 +49,7 @@ public class Pair extends CardType {
 		int size = adapterCards.size();
 		if (size < 2) 
 			return pairs;
-		Card.sort(adapterCards);
+		CardUtil.sortCards(adapterCards);
 		for (int i = 0 ; i < size - 1; i ++) {
 			Card card1 = adapterCards.get(i);
 			Card card2 = adapterCards.get(i + 1);
