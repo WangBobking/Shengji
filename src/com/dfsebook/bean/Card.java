@@ -70,4 +70,15 @@ public class Card {
 			
 		});
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Card) {
+			Card card = (Card)obj;
+			if (card.suit == suit && card.face == face)
+				return true;
+		}
+		return false;
+	}
+	
 }
