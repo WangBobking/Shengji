@@ -31,21 +31,16 @@ public class Pair extends CardType {
 	/**
 	 * 
 	* @Title: find
-	* @Description: 查找所有符合条件的对牌
+	* @Description: 查找所有符合条件的对牌。 
 	* @param @param cards 游戏者手中的所有的牌
 	* @param @param currentSuit 发牌者出的牌型的花色
 	* @param @return    
 	* @return List<Pair>  对牌集合
 	* @throws
 	 */
-	public static List<Pair> find(List<Card> cards, int currentSuit) {
+	public static List<Pair> find(List<Card> cards, int currentSuit, int currentRank) {
 		List<Pair> pairs = new ArrayList<Pair>();
-		List<Card> adapterCards = new ArrayList<Card>();
-		for (Card card : cards) {
-			if (card.getSuit() == currentSuit) {
-				adapterCards.add(card);
-			}
-		}
+		List<Card> adapterCards = CardUtil.filterCards(cards, currentSuit, currentRank);
 		int size = adapterCards.size();
 		if (size < 2) 
 			return pairs;

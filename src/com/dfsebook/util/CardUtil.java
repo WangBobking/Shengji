@@ -101,6 +101,57 @@ public class CardUtil {
 		});
 	}
 	
+	/** 
+	* @Title: filterCards
+	* @Description: 根据条件过滤筛选扑克
+	* 分几种情况，
+	* 1.抓牌阶段除王牌以外所有的牌全符合条件
+	* 2.拱主阶段如果出牌牌型是自然主，则范围确定为所有自然主
+	*   如果出牌牌型是非自然主，则范围确定为同花色牌
+	* 3.发随牌阶段如果出牌牌型是主牌，则范围确定为主牌
+	*   如果出牌牌型是付牌，则范围确定为同花色牌  
+	* @param @param cards
+	* @param @param currentSuit 当前牌型的花色
+	* @param @param currentRank 当前牌型的rank
+	* @param @return    
+	* @return List<Card> 过滤后的扑克牌集合
+	* @throws
+	 */
+	public static List<Card> filterCards(List<Card> cards, int currentSuit, int currentRank) {
+		List<Card> adapterCards = new ArrayList<Card>();
+		if (currentSuit == 0) {
+			if (currentRank == 0) {//对应于抓牌阶段
+				for (Card card : cards) {
+					if (card.getFace() < 20) {
+						adapterCards.add(card);
+					}
+				}		
+			}
+			if (currentRank > 1) {//对应于拱主阶段
+				for (Card card : cards) {
+					if (card.getRank() > 1) {
+						adapterCards.add(card);
+					}
+				}
+			}
+		} else {
+			if (currentRank == 0) {//对应于付牌
+				for (Card card : cards) {
+					if (card.getSuit() == currentSuit && card.getRank() == 0) {
+						adapterCards.add(card);
+					}
+				}
+			} else {//对应于主牌
+				for (Card card : cards) {
+					if (card.getRank() > 1) {
+						adapterCards.add(card);
+					}
+				}
+			}
+		}
+		return adapterCards;
+	}
+	
 	public static List<Card> createCards() {
 		List<Card> cards = new ArrayList<>();
 		for (int i = 1; i < 5; i ++) {

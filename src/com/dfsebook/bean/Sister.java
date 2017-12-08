@@ -1,5 +1,6 @@
 package com.dfsebook.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.dfsebook.util.CardUtil;
@@ -43,7 +44,7 @@ public class Sister extends CardType {
 	/** 
 	* @Title: formSister
 	* @Description: 
-	*思路是这样的：单纯按照face排序,如果所有牌组成姊妹对，那么
+	* 思路是这样的：单纯按照face排序,如果所有牌组成姊妹对，那么
 	* 第一张和第二张牌是相等的，最后一张和倒数第二张是相等的
 	* 并且倒数第二张牌的牌面值一定等于第一张牌的牌面值加上牌的总张数的一半减1
 	* 满足这个条件就是姊妹对。这里面是否有漏洞？同志们有没有更好的方法。。。。
@@ -67,5 +68,12 @@ public class Sister extends CardType {
 			return sister;
 		}
 		return null;
+	}
+	
+	public static List<Sister> find(List<Card> cards, int currentSuit, int currentRank) {
+		List<Sister> sisters = new ArrayList<Sister>();
+		List<Card> adapterCards = CardUtil.filterCards(cards, currentSuit, currentRank);
+		
+		return sisters;
 	}
 }
