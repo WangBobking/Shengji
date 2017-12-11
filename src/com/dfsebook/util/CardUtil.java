@@ -117,38 +117,49 @@ public class CardUtil {
 	* @return List<Card> 过滤后的扑克牌集合
 	* @throws
 	 */
-	public static List<Card> filterCards(List<Card> cards, int currentSuit, int currentRank) {
+	public static List<Card> filterCards(List<Card> cards, int trumpSuit,
+			int currentSuit, int currentRank) {
 		List<Card> adapterCards = new ArrayList<Card>();
-		if (currentSuit == 0) {
-			if (currentRank == 0) {//对应于抓牌阶段
+		if (trumpSuit == 0) {
+			if (currentSuit == 0) {//对应于抓牌阶段
 				for (Card card : cards) {
 					if (card.getFace() < 20) {
 						adapterCards.add(card);
 					}
-				}		
+				}				
+			} else {//对应于拱主阶段
+				if (currentRank == 0) {//出的是付牌
+					for (Card card : cards) {
+						if (card.getSuit() == currentSuit ||
+								card.getRank() == 0) {//同花色的付牌
+							adapterCards.add(card);
+						}
+					}	
+				} else {//出的是主牌（也就是自然主）
+					for (Card card : cards) {
+						if (card.getRank() > 1) {//只能随自然主
+							adapterCards.add(card);
+						}
+					}	
+				}			
 			}
-			if (currentRank > 1) {//对应于拱主阶段
+		} else {//对应于发随牌阶段
+			if (currentRank == 0) {//出的是付牌
 				for (Card card : cards) {
-					if (card.getRank() > 1) {
+					if (card.getSuit() == currentSuit ||
+							card.getRank() == 0) {//同花色的付牌
 						adapterCards.add(card);
 					}
-				}
-			}
-		} else {
-			if (currentRank == 0) {//对应于付牌
+				}	
+			} else {//出的是主牌
 				for (Card card : cards) {
-					if (card.getSuit() == currentSuit && card.getRank() == 0) {
+					if (card.getRank() > 0) {//只能随主牌
 						adapterCards.add(card);
 					}
-				}
-			} else {//对应于主牌
-				for (Card card : cards) {
-					if (card.getRank() > 1) {
-						adapterCards.add(card);
-					}
-				}
+				}	
 			}
 		}
+		
 		return adapterCards;
 	}
 	

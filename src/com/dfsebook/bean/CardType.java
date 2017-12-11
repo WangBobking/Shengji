@@ -50,4 +50,39 @@ public class CardType {
 			cards = new ArrayList<Card>();
 		cards.add(card);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof CardType) {
+			CardType ct = (CardType)obj;
+			if (ct.getCards().equals(cards)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getClass().getSimpleName() + " ");
+		if (getSuit() == 1)
+			sb.append("Diamonds");
+		else if (getSuit() == 2)
+			sb.append("Clubs");
+		else if (getSuit() == 3)
+			sb.append("Hearts");
+		else
+			sb.append("Spades");
+		sb.append(" ");
+		int size = 0;
+		if (this instanceof Pair || this instanceof Sister)
+			size = cards.size() / 2;
+		for (int index = 0; index < size; index ++) {
+			sb.append(face + index);
+			sb.append(face + index);
+		}
+		return sb.toString();
+	}
+	
 }
