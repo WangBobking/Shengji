@@ -60,5 +60,10 @@ public class Card {
 		}
 		return false;
 	}
+
+	@Override
+	public int hashCode() {
+		return suit + face;
+	}
 	
 }

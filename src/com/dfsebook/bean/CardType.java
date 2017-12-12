@@ -75,12 +75,17 @@ public class CardType {
 		else
 			sb.append("Spades");
 		sb.append(" ");
-		int size = 0;
-		if (this instanceof Pair || this instanceof Sister)
+		int size = cards.size();
+		if (this instanceof Pair || this instanceof Sister) {
 			size = cards.size() / 2;
-		for (int index = 0; index < size; index ++) {
-			sb.append(face + index);
-			sb.append(face + index);
+			for (int index = 0; index < size; index ++) {
+				sb.append(face + index);
+				sb.append(face + index);
+			}
+		} else {
+			for (int index = 0; index < size; index ++) {
+				sb.append(face + index);
+			}
 		}
 		return sb.toString();
 	}

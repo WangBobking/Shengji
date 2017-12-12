@@ -46,6 +46,33 @@ public class ShowCards extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+//		drawBack(g);
 	}
 	
+	
+	private void drawBack(Graphics g) {
+		g.setColor(getBackground());
+		g.fillRect(0, 0, getWidth(), getHeight());
+		int width = getWidth();
+		int w = width - 105 - 20*(cards.size() - 1);
+		w = w/2;//保证所有扑克显示到窗体水平居中位置
+		int span = 0;//相邻两张扑克间隔距离
+		try {			
+			for (int j = 0;  j < 3; j ++) {
+				String name = "520";
+				if (j < 2) {
+					name = "back";
+				}
+				String path = "images/" + name + ".jpg";
+				Image im = ImageIO.read(new FileInputStream(path));
+				g.drawImage(im, span + w, 20, 105, 150, this);
+				span += 20;
+			}
+			g = null;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

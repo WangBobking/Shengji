@@ -21,14 +21,15 @@ public class Pair extends CardType {
 	 */
 	
 	public static Pair distinguish(Card card1, Card card2) {		
-		if (!card1.equals(card2))
-			return null;
-		Pair pair = new Pair();
-		pair.setFace(card1.getFace());
-		pair.setSuit(card1.getSuit());
-		pair.addCard(card1);
-		pair.addCard(card2);
-		return pair;
+		if (card1.equals(card2)) {
+			Pair pair = new Pair();
+			pair.setFace(card1.getFace());
+			pair.setSuit(card1.getSuit());
+			pair.addCard(card1);
+			pair.addCard(card2);
+			return pair;
+		}
+		return null; 
 	}
 	/** 
 	* @Title: find
@@ -39,10 +40,10 @@ public class Pair extends CardType {
 	* @return List<Pair>  对牌集合
 	* @throws
 	 */
-	public static List<Pair> find(List<Card> cards, int trumpSuit,
-			int currentSuit, int currentRank) {
+	public static List<Pair> find(List<Card> cards, boolean controlled, 
+			int trumpSuit, int currentSuit) {
 		List<Pair> pairs = new ArrayList<Pair>();
-		List<Card> adapterCards = CardUtil.filterCards(cards, trumpSuit, currentSuit, currentRank);//过滤
+		List<Card> adapterCards = filterCards(cards, controlled, trumpSuit, currentSuit);//过滤
 		int size = adapterCards.size();
 		if (size < 2) 
 			return pairs;
@@ -74,4 +75,24 @@ public class Pair extends CardType {
 		});
 	}
 	
+	private static List<Card> filterCards(List<Card> cards, boolean controlled, 
+			int trumpSuit, int currentSuit) {
+		List<Card> result = new ArrayList<Card>();
+		if (!controlled) {
+			result.addAll(cards);
+		} else {
+			for (Card card : cards) {
+				if (trumpSuit == currentSuit) {//对应于拱主结束，并且此时发牌牌型肯定是主牌
+					if (card.getSuit() == currentSuit) {//只需要挑出主花色的牌即可
+						result.add(card);
+					}
+				} else {//对应于拱主阶段或拱主结束后发牌牌型是付牌
+					if (card.getSuit() == currentSuit && card.getRank() == 0) {
+						result.add(card);
+					}	
+				}			
+			}
+		}
+		return result;
+	}
 }

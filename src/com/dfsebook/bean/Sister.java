@@ -74,7 +74,7 @@ public class Sister extends CardType {
 	* @Title: find
 	* @Description: 在一定范围内查找所有姊妹对
 	* 思路是这样的：
-	* 1.首先找出所有对牌，由于之前已经排序，所以只是对牌是有序排列的
+	* 1.首先找出所有对牌，并排序
 	* 2.只要相邻的对牌花色一致，牌面值连续，就构成姊妹对
 	* 3.由于随牌时只能随一致的牌型，所以当发牌为6张姊妹对如667788，我们只能随6张姊妹对，4张的舍弃
 	*   但是对于8张的姊妹对我们就可以把它拆分为2个6张姊妹对，如991010JJQQ，拆分为991010JJ和1010JJQQ，
@@ -87,13 +87,14 @@ public class Sister extends CardType {
 	* @return List<Sister>    返回类型
 	* @throws
 	 */
-	public static List<Sister> find(List<Card> cards, int trumpSuit,
-			int currentSuit, int currentRank) {
+	public static List<Sister> find(List<Card> cards, boolean controlled, 
+			int trumpSuit, int currentSuit, int currentSize) {
 		List<Sister> sisters = new ArrayList<Sister>();
-		List<Pair> pairs = Pair.find(cards, trumpSuit, currentSuit, currentRank);
-		nomalFind(sisters, pairs);
+		List<Pair> pairs = Pair.find(cards, controlled, trumpSuit, currentSuit);
+		Pair.sortPairs(pairs);
+		nomalFind(sisters, pairs,currentSize);
 		convertATo1(pairs);
-		nomalFind(sisters, pairs);
+		nomalFind(sisters, pairs,  currentSize);
 		//这样处理以后可能会出现重复现象。比如出牌包含有2233AA时就会出现姊妹对AA2233和2233两个姊妹对，
 		//又如包含有22QQKKAA时会出现QQKKAA，QQKK，AA22三个姊妹对，对此在以后提示功能中做一下去重操作就好。
 		return sisters;
@@ -112,13 +113,13 @@ public class Sister extends CardType {
 	
 	private static List<Pair> tPairs;//	
 
-	private static void nomalFind(List<Sister> sisters, List<Pair> pairs) {
+	private static void nomalFind(List<Sister> sisters, List<Pair> pairs, int currentSize) {
 		for (int i = 0; i < pairs.size(); i ++) {
 			Pair pair = pairs.get(i);
 			tPairs = new ArrayList<Pair>();//一个临时的集合存放符合条件的Pair
 			tPairs.add(pair);//预先加入该Pair
 			deepFind(pairs, pair, i);
-			if (tPairs.size() > 1) {//符合条件的对的个数大于1时
+			if (tPairs.size() >= currentSize / 2) {//符合条件的对的个数大于等于发牌姊妹对牌的张数除2时
 				i += tPairs.size() - 1;//循环变量前移到该处
 				Sister sister = formSisterFromPairs();
 				if (!sisters.contains(sister)) {//判断集合中是否包含该姊妹对，为此要重写CardType类的equals
@@ -154,5 +155,5 @@ public class Sister extends CardType {
 		sister.setCards(cards);
 		return sister;
 	}
-
+	
 }

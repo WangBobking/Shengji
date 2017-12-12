@@ -2,6 +2,7 @@ package com.dfsebook.run;
 
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -39,11 +40,31 @@ public class Demo extends JFrame{
         container = getContentPane();
         setVisible(true);
 
-        List<Card> cards = CardUtil.createCards();
+        List<Card> cards = demoCards();//CardUtil.createCards();
         ShowCards sc = new ShowCards(cards);
         sc.setBounds(45, 120, 900, 170);
         container.add(sc);
 	}
 	
-
+	private static List<Card> demoCards() {
+		List<Card> cards = new ArrayList<Card>();
+		cards.add(new Card(1, 6));
+		cards.add(new Card(1, 6));
+		cards.add(new Card(1, 10));
+		cards.add(new Card(1, 10));
+		cards.add(new Card(1, 11));
+		cards.add(new Card(1, 11));
+		cards.add(new Card(2, 9));
+		cards.add(new Card(3, 10));
+		cards.add(new Card(4, 6));
+		cards.add(new Card(3, 3));
+		cards.add(new Card(1, 5));
+		cards.add(new Card(1, 5));
+		cards.add(new Card(2, 5));
+		cards.add(new Card(4, 5));
+		for (Card card : cards) {
+			card.setRank(0, 14);
+		}
+		return cards;
+	}
 }

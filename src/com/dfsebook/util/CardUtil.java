@@ -101,66 +101,32 @@ public class CardUtil {
 		});
 	}
 	
-	/** 
-	* @Title: filterCards
-	* @Description: 根据条件过滤筛选扑克
-	* 分几种情况，
-	* 1.抓牌阶段除王牌以外所有的牌全符合条件
-	* 2.拱主阶段如果出牌牌型是自然主，则范围确定为所有自然主
-	*   如果出牌牌型是非自然主，则范围确定为同花色牌
-	* 3.发随牌阶段如果出牌牌型是主牌，则范围确定为主牌
-	*   如果出牌牌型是付牌，则范围确定为同花色牌  
-	* @param @param cards
-	* @param @param currentSuit 当前牌型的花色
-	* @param @param currentRank 当前牌型的rank
-	* @param @return    
-	* @return List<Card> 过滤后的扑克牌集合
-	* @throws
-	 */
-	public static List<Card> filterCards(List<Card> cards, int trumpSuit,
-			int currentSuit, int currentRank) {
-		List<Card> adapterCards = new ArrayList<Card>();
-		if (trumpSuit == 0) {
-			if (currentSuit == 0) {//对应于抓牌阶段
-				for (Card card : cards) {
-					if (card.getFace() < 20) {
-						adapterCards.add(card);
-					}
-				}				
-			} else {//对应于拱主阶段
-				if (currentRank == 0) {//出的是付牌
-					for (Card card : cards) {
-						if (card.getSuit() == currentSuit ||
-								card.getRank() == 0) {//同花色的付牌
-							adapterCards.add(card);
-						}
-					}	
-				} else {//出的是主牌（也就是自然主）
-					for (Card card : cards) {
-						if (card.getRank() > 1) {//只能随自然主
-							adapterCards.add(card);
-						}
-					}	
-				}			
-			}
-		} else {//对应于发随牌阶段
-			if (currentRank == 0) {//出的是付牌
-				for (Card card : cards) {
-					if (card.getSuit() == currentSuit ||
-							card.getRank() == 0) {//同花色的付牌
-						adapterCards.add(card);
-					}
-				}	
-			} else {//出的是主牌
-				for (Card card : cards) {
-					if (card.getRank() > 0) {//只能随主牌
-						adapterCards.add(card);
-					}
+	
+	public static List<Card> filterCards(List<Card> cards, int trumpSuit, int currentSuit) {
+		List<Card> result = new ArrayList<Card>();
+		for (Card card : cards) {//currentSuit肯定不等于0
+			if (trumpSuit == currentSuit) {//对应于拱主结束，并且此时发牌牌型肯定是主牌
+				if (card.getSuit() == currentSuit) {//只需要挑出主花色的牌即可
+					result.add(card);
+				}
+			} else {//对应于拱主阶段或拱主结束后发牌牌型是付牌
+				if (card.getSuit() == currentSuit && card.getRank() == 0) {
+					result.add(card);
 				}	
 			}
 		}
+		return result;
+	}
+	
 		
-		return adapterCards;
+	
+	public static void convertAndSortCards(List<Card> cards) {
+		for (Card card : cards) {
+			if (card.getFace() == 14) {
+				card.setFace(1);
+			}
+		}
+		CardUtil.simpleSortCards(cards);
 	}
 	
 	public static List<Card> createCards() {
