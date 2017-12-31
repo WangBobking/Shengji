@@ -22,7 +22,8 @@ public class Rain extends CardType {
 	* @return Rain    返回雨或空值
 	* @throws
 	 */
-	public static Rain distinguish(List<Card> cards) {
+	public static Rain distinguish(List<Card> cds) {
+		List<Card> cards = new ArrayList<Card>(cds);
 		if (cards == null || cards.size() < 5)
 			return null;
 		if (!CardUtil.isSameSuit(cards))
@@ -52,8 +53,9 @@ public class Rain extends CardType {
 	* @return List<Rain>    返回雨的集合
 	* @throws
 	 */
-	public static List<Rain> find(List<Card> cards, int trumpSuit, 
+	public static List<Rain> find(List<Card> cds, int trumpSuit, 
 			int currentSuit, int currentSize) {
+		List<Card> cards = new ArrayList<Card>(cds);
 		List<Rain> rains = new ArrayList<Rain>();
 		cards = CardUtil.filterCards(cards, trumpSuit, currentSuit);
 		distinctCards(cards);

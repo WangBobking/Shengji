@@ -81,7 +81,6 @@ public class CardUtil {
 			
 		});
 	}
-	
 
 	/** 
 	* @Title: simpleSortCards
@@ -100,8 +99,7 @@ public class CardUtil {
 			}	
 		});
 	}
-	
-	
+
 	public static List<Card> filterCards(List<Card> cards, int trumpSuit, int currentSuit) {
 		List<Card> result = new ArrayList<Card>();
 		for (Card card : cards) {//currentSuit肯定不等于0
@@ -117,8 +115,16 @@ public class CardUtil {
 		}
 		return result;
 	}
-	
-		
+
+	public static List<Card> filterNuturals(List<Card> cards) {
+		List<Card> result = new ArrayList<Card>();
+		for (Card card : cards) {
+			if (card.getRank() > 1) {
+				result.add(card);
+			}
+		}
+		return result;
+	}
 	
 	public static void convertAndSortCards(List<Card> cards) {
 		for (Card card : cards) {
@@ -134,8 +140,10 @@ public class CardUtil {
 		for (int i = 1; i < 5; i ++) {
 			for (int j = 2; j < 15; j ++) {				
 				Card card = new Card(i,j);
+				card.setRank(0, 14);
 				cards.add(card);
 				card = new Card(i,j);//万万不可省略此句，你知道为什么吗？
+				card.setRank(0, 14);
 				cards.add(card);
 			}
 		}

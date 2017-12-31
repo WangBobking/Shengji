@@ -34,14 +34,17 @@ public class Pair extends CardType {
 	/** 
 	* @Title: find
 	* @Description: 查找所有符合条件的对牌。 
-	* @param @param cards 游戏者手中的所有的牌
+	* @param @param cds 游戏者手中的所有的牌
+	* @param @param controlled 是否受主付不能连原则的控制
+	* @param @param trumpSuit 主花色
 	* @param @param currentSuit 发牌者出的牌型的花色
 	* @param @return    
 	* @return List<Pair>  对牌集合
 	* @throws
 	 */
-	public static List<Pair> find(List<Card> cards, boolean controlled, 
+	public static List<Pair> find(List<Card> cds, boolean controlled, 
 			int trumpSuit, int currentSuit) {
+		List<Card> cards = new ArrayList<Card>(cds);
 		List<Pair> pairs = new ArrayList<Pair>();
 		List<Card> adapterCards = filterCards(cards, controlled, trumpSuit, currentSuit);//过滤
 		int size = adapterCards.size();

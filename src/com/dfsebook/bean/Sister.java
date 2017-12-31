@@ -16,7 +16,8 @@ public class Sister extends CardType {
 	* @return Sister    返回姊妹对或空
 	* @throws
 	 */
-	public static Sister distinguish(List<Card> cards, boolean controlled) {
+	public static Sister distinguish(List<Card> cds, boolean controlled) {
+		List<Card> cards = new ArrayList<Card>(cds);
 		int size = cards.size();
 		if (cards == null || size < 4 ||
 				size % 2 != 0 || !CardUtil.isSameSuit(cards)) {

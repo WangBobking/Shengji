@@ -15,7 +15,8 @@ public class Wind extends CardType {
 	* @return Wind    返回类型
 	* @throws
 	 */
-	public static Wind distinguish(List<Card> cards) {
+	public static Wind distinguish(List<Card> cds) {
+		List<Card> cards = new ArrayList<Card>(cds);
 		if (cards == null || cards.size() < 5 ||
 				!CardUtil.isSameSuit(cards))
 			return null;
@@ -43,8 +44,9 @@ public class Wind extends CardType {
 	* @return List<Wind>    返回Wind集合
 	* @throws
 	 */
-	public static List<Wind> find(List<Card> cards, int trumpSuit, 
+	public static List<Wind> find(List<Card> cds, int trumpSuit, 
 			int currentSuit, int parity, int currentSize) {
+		List<Card> cards = new ArrayList<Card>(cds);
 		List<Wind> winds = new ArrayList<Wind>();
 		cards = CardUtil.filterCards(cards, trumpSuit, currentSuit);		
 		if (cards == null || cards.size() < 5)
